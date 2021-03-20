@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+
+  webflux-service:
+    image: webflux-service
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8300:8300
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
+networks:
+  app-network:
+volumes:
+  app-volume: {}
